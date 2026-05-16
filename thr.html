@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spesial THR Ulang Tahun! 🎉</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+            backdrop-filter: blur(10px);
+            transition: all 0.5s ease;
+        }
+
+        h1 {
+            color: #ff6b81;
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #555;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .envelope-wrapper {
+            margin: 20px 0;
+            cursor: pointer;
+        }
+
+        .gift-icon {
+            font-size: 80px;
+            animation: bounce 2s infinite;
+        }
+
+        .btn-main {
+            background: linear-gradient(45deg, #ff6b81, #ff4757);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(255, 71, 87, 0.4);
+            transition: transform 0.2s, background 0.3s;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .btn-main:hover {
+            transform: scale(1.03);
+        }
+
+        /* Method Selection Style */
+        .method-container {
+            display: none; /* Hidden at start */
+            margin-top: 20px;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .method-options {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .method-btn {
+            background: white;
+            border: 2px solid #a6c1ee;
+            padding: 10px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #555;
+            transition: all 0.3s;
+        }
+
+        .method-btn:hover {
+            background: #a6c1ee;
+            color: white;
+        }
+
+        .method-btn.selected {
+            border-color: #ff6b81;
+            background: #fff0f2;
+            color: #ff6b81;
+        }
+
+        /* Result Area */
+        .result-box {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: #fdfdfd;
+            border-radius: 15px;
+            border: 2px dashed #ff6b81;
+            animation: fadeIn 0.5s ease-in-out forwards;
+        }
+
+        .thr-amount {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #2ed573;
+            margin: 10px 0;
+        }
+
+        .btn-wa {
+            background-color: #25d366;
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+            padding: 12px 20px;
+            border-radius: 50px;
+            font-weight: bold;
+            margin-top: 15px;
+            box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3);
+            transition: 0.3s;
+        }
+
+        .btn-wa:hover {
+            background-color: #128c7e;
+            transform: translateY(-2px);
+        }
+
+        /* Animations */
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-20px); }
+            60% { transform: translateY(-10px); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .confetti {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            top: -10px;
+            z-index: 999;
+            animation: confettiFall 3s linear forwards;
+        }
+
+        @keyframes confettiFall {
+            to { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div id="step1">
+            <h1>Selamat Ulang Tahun! 🎂</h1>
+            <p>Khusus buat pacar aku yang paling baik, ada saldo THR spesial buat kamu hari ini.</p>
+            <div class="envelope-wrapper" onclick="showMethods()">
+                <div class="gift-icon">🎁</div>
+            </div>
+            <button class="btn-main" onclick="showMethods()">Buka Kado</button>
+        </div>
+
+        <div id="step2" class="method-container">
+            <h3>Pilih Metode Claim:</h3>
+            <div class="method-options">
+                <button class="method-btn" onclick="selectMethod('Dana')">Dana</button>
+                <button class="method-btn" onclick="selectMethod('ShopeePay')">ShopeePay</button>
+                <button class="method-btn" onclick="selectMethod('GoPay')">GoPay</button>
+            </div>
+        </div>
+
+        <div id="step3" class="result-box">
+            <h2>🎉 Berhasil! 🎉</h2>
+            <p>THR kamu sudah siap dicairkan ke <span id="selectedMethodDisplay" style="font-weight: bold;"></span>:</p>
+            <div class="thr-amount">Rp 500.000</div>
+            <p style="font-size: 0.85rem;">Klik tombol di bawah untuk klaim ke WhatsApp aku ya!</p>
+            
+            <a href="#" id="waLink" class="btn-wa">Kirim ke WhatsApp</a>
+        </div>
+    </div>
+
+    <script>
+        let selectedMethod = "";
+
+        function showMethods() {
+            document.getElementById('step1').style.display = 'none';
+            document.getElementById('step2').style.display = 'block';
+            createConfetti();
+        }
+
+        function selectMethod(method) {
+            selectedMethod = method;
+            document.getElementById('step2').style.display = 'none';
+            document.getElementById('step3').style.display = 'block';
+            document.getElementById('selectedMethodDisplay').innerText = method;
+
+            // Link WhatsApp
+            const phone = "6285369954235"; // Format internasional
+            const text = `Hlo, Saya mau claim THR saya via ${method}`;
+            const waUrl = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
+            
+            document.getElementById('waLink').href = waUrl;
+        }
+
+        function createConfetti() {
+            const colors = ['#ff6b81', '#ff4757', '#2ed573', '#1e90ff', '#ffa502'];
+            for (let i = 0; i < 60; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.animationDelay = Math.random() * 2 + 's';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                document.body.appendChild(confetti);
+                setTimeout(() => { confetti.remove(); }, 3000);
+            }
+        }
+    </script>
+</body>
+</html>
