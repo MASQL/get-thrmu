@@ -3,243 +3,405 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spesial THR Ulang Tahun! 🎉</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>Gacha THR Spesial Sayang ❤️</title>
     <style>
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Poppins', sans-serif;
         }
 
         body {
-            background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px;
-            overflow-x: hidden;
+            padding: 20px 12px;
         }
 
         .container {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            max-width: 400px;
+            max-width: 480px;
             width: 100%;
-            backdrop-filter: blur(10px);
-            transition: all 0.5s ease;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(8px);
+            border-radius: 24px;
+            box-shadow: 0 15px 35px rgba(255, 77, 109, 0.2);
+            padding: 30px 20px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            position: relative;
+            overflow: hidden;
         }
 
         h1 {
-            color: #ff6b81;
-            font-size: 1.6rem;
-            margin-bottom: 10px;
+            color: #d90429;
+            font-size: 24px;
+            margin-bottom: 8px;
         }
 
-        p {
-            color: #555;
-            font-size: 0.95rem;
-            line-height: 1.5;
-            margin-bottom: 20px;
+        .subtitle {
+            font-size: 13px;
+            color: #ff4d6d;
+            font-weight: 600;
+            margin-bottom: 25px;
         }
 
-        .envelope-wrapper {
-            margin: 20px 0;
-            cursor: pointer;
+        /* Spinner Outer Border (Lampu Gacha) */
+        .spinner-container {
+            position: relative;
+            width: 310px;
+            height: 310px;
+            margin: 0 auto 25px auto;
+            background: #fff0f3;
+            border-radius: 50%;
+            padding: 15px;
+            box-shadow: inset 0 0 15px rgba(201, 24, 74, 0.2), 0 10px 25px rgba(0,0,0,0.1);
         }
 
-        .gift-icon {
-            font-size: 80px;
-            animation: bounce 2s infinite;
+        /* Jarum Penunjuk Interaktif dengan Animasi Goyang */
+        .pointer {
+            position: absolute;
+            top: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 25px solid #d90429;
+            z-index: 10;
+            transform-origin: top center;
         }
 
-        .btn-main {
-            background: linear-gradient(45deg, #ff6b81, #ff4757);
+        /* Class Animasi Jarum saat berputar */
+        .pointer.tick {
+            animation: pointerTick 0.15s ease-in-out infinite;
+        }
+
+        @keyframes pointerTick {
+            0% { transform: translateX(-50%) rotate(0deg); }
+            50% { transform: translateX(-50%) rotate(-15deg); }
+            100% { transform: translateX(-50%) rotate(0deg); }
+        }
+
+        canvas {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            /* Menggunakan cubic-bezier khusus untuk efek membal/pegas di akhir */
+            transition: transform 5s cubic-bezier(0.25, 1.2, 0.3, 1);
+        }
+
+        .spin-btn {
+            background: linear-gradient(135deg, #ff4d6d 0%, #c9184a 100%);
             color: white;
             border: none;
-            padding: 12px 30px;
-            font-size: 1rem;
-            font-weight: bold;
+            padding: 12px 35px;
+            font-size: 16px;
+            font-weight: 700;
             border-radius: 50px;
             cursor: pointer;
-            box-shadow: 0 5px 15px rgba(255, 71, 87, 0.4);
-            transition: transform 0.2s, background 0.3s;
-            width: 100%;
-            margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(201, 24, 74, 0.4);
+            transition: 0.2s ease;
         }
 
-        .btn-main:hover {
-            transform: scale(1.03);
+        .spin-btn:hover {
+            transform: scale(1.05);
         }
 
-        /* Method Selection Style */
-        .method-container {
-            display: none; /* Hidden at start */
+        .spin-btn:disabled {
+            background: #ccc;
+            box-shadow: none;
+            cursor: not-allowed;
+        }
+
+        /* Result Section */
+        .result-section {
             margin-top: 20px;
-            animation: fadeIn 0.5s ease-in-out;
-        }
-
-        .method-options {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .method-btn {
-            background: white;
-            border: 2px solid #a6c1ee;
-            padding: 10px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-weight: 600;
-            color: #555;
-            transition: all 0.3s;
-        }
-
-        .method-btn:hover {
-            background: #a6c1ee;
-            color: white;
-        }
-
-        .method-btn.selected {
-            border-color: #ff6b81;
-            background: #fff0f2;
-            color: #ff6b81;
-        }
-
-        /* Result Area */
-        .result-box {
             display: none;
-            margin-top: 20px;
-            padding: 20px;
-            background: #fdfdfd;
-            border-radius: 15px;
-            border: 2px dashed #ff6b81;
             animation: fadeIn 0.5s ease-in-out forwards;
         }
 
-        .thr-amount {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #2ed573;
-            margin: 10px 0;
+        .result-text {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 5px;
         }
 
-        .btn-wa {
-            background-color: #25d366;
+        .unlucky { color: #6c757d; font-size: 14px; font-style: italic; }
+        .jackpot { color: #38b000; font-size: 20px; animation: pulse 1s infinite; }
+        .normal { color: #c9184a; }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .claim-btn {
+            background: linear-gradient(135deg, #38b000 0%, #007200 100%);
             color: white;
-            text-decoration: none;
-            display: inline-block;
-            padding: 12px 20px;
+            border: none;
+            padding: 12px 40px;
+            font-size: 15px;
+            font-weight: 700;
             border-radius: 50px;
-            font-weight: bold;
+            cursor: pointer;
             margin-top: 15px;
-            box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3);
-            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(56, 176, 0, 0.4);
+            display: none;
         }
 
-        .btn-wa:hover {
-            background-color: #128c7e;
+        /* E-Wallet Selection Box */
+        .wallet-section {
+            display: none;
+            margin-top: 25px;
+            border-top: 2px dashed #ffb3c1;
+            padding-top: 20px;
+            animation: fadeIn 0.5s ease-in-out forwards;
+        }
+
+        .wallet-title {
+            font-size: 15px;
+            color: #4a4a4a;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .wallet-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .wallet-card {
+            background: #ffffff;
+            border: 1.5px solid #ffe5ec;
+            border-radius: 14px;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-decoration: none;
+            transition: 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+        }
+
+        .wallet-card:hover {
+            border-color: #ff4d6d;
+            background: #fff0f3;
             transform: translateY(-2px);
         }
 
-        /* Animations */
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-20px); }
-            60% { transform: translateY(-10px); }
+        .wallet-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .wallet-logo {
+            height: 32px;
+            width: auto;
+            object-fit: contain;
+            display: block;
+        }
+
+        .wallet-name {
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .wallet-arrow {
+            color: #ff4d6d;
+            font-size: 16px;
+            font-weight: bold;
         }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
-        .confetti {
-            position: fixed;
-            width: 8px;
-            height: 8px;
-            top: -10px;
-            z-index: 999;
-            animation: confettiFall 3s linear forwards;
-        }
-
-        @keyframes confettiFall {
-            to { transform: translateY(100vh) rotate(720deg); opacity: 0; }
-        }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <div id="step1">
-            <h1>Selamat Ulang Tahun! 🎂</h1>
-            <p>Khusus buat pacar aku yang paling baik, ada saldo THR spesial buat kamu hari ini.</p>
-            <div class="envelope-wrapper" onclick="showMethods()">
-                <div class="gift-icon">🎁</div>
-            </div>
-            <button class="btn-main" onclick="showMethods()">Buka Kado</button>
+        <h1>🎁 GACHA CUAN TAMBAHAN 🎁</h1>
+        <p class="subtitle">Yuk yang coba keberuntunganmu💓</p>
+
+        <div class="spinner-container">
+            <div class="pointer" id="wheel-pointer"></div>
+            <canvas id="wheel" width="280" height="280"></canvas>
         </div>
 
-        <div id="step2" class="method-container">
-            <h3>Pilih Metode Claim:</h3>
-            <div class="method-options">
-                <button class="method-btn" onclick="selectMethod('Dana')">Dana</button>
-                <button class="method-btn" onclick="selectMethod('ShopeePay')">ShopeePay</button>
-                <button class="method-btn" onclick="selectMethod('GoPay')">GoPay</button>
-            </div>
+        <button class="spin-btn" id="spin-button" onclick="putarRoda()">PUTAR SEKARANG</button>
+
+        <div class="result-section" id="result-box">
+            <div class="result-text" id="prize-text"></div>
+            <div id="funny-text"></div>
+            <button class="claim-btn" id="claim-button" onclick="bukaKlaim()">Klaim THR Sekarang 💸</button>
         </div>
 
-        <div id="step3" class="result-box">
-            <h2>🎉 Berhasil! 🎉</h2>
-            <p>THR kamu sudah siap dicairkan ke <span id="selectedMethodDisplay" style="font-weight: bold;"></span>:</p>
-            <div class="thr-amount">Rp 500.000</div>
-            <p style="font-size: 0.85rem;">Klik tombol di bawah untuk klaim ke WhatsApp aku ya!</p>
-            
-            <a href="#" id="waLink" class="btn-wa">Kirim ke WhatsApp</a>
+        <div class="wallet-section" id="wallet-box">
+            <p class="wallet-title">Pilih Metode Pencairan Dana THR:</p>
+            <div class="wallet-grid">
+                
+                <a id="link-dana" href="#" target="_blank" class="wallet-card">
+                    <div class="wallet-info">
+                        <img src="dana.png" alt="DANA" class="wallet-logo">
+                        <span class="wallet-name" style="color: #118EEA;">DANA</span>
+                    </div>
+                    <span class="wallet-arrow">➔</span>
+                </a>
+
+                <a id="link-gopay" href="#" target="_blank" class="wallet-card">
+                    <div class="wallet-info">
+                        <img src="gopay.png" alt="GoPay" class="wallet-logo">
+                        <span class="wallet-name" style="color: #00AED6;">GoPay</span>
+                    </div>
+                    <span class="wallet-arrow">➔</span>
+                </a>
+
+                <a id="link-shopeepay" href="#" target="_blank" class="wallet-card">
+                    <div class="wallet-info">
+                        <img src="shopeepay.png" alt="ShopeePay" class="wallet-logo">
+                        <span class="wallet-name" style="color: #EE4D2D;">ShopeePay</span>
+                    </div>
+                    <span class="wallet-arrow">➔</span>
+                </a>
+
+            </div>
         </div>
     </div>
 
     <script>
-        let selectedMethod = "";
+        const canvas = document.getElementById("wheel");
+        const ctx = canvas.getContext("2d");
+        const pointer = document.getElementById("wheel-pointer");
+        
+        // Data Nominal Gacha
+        const prizes = ["10k", "30k", "50k", "100k", "300k", "Zonk"];
+        const colors = ["#ffb3c1", "#ff85a1", "#ff4d6d", "#c9184a", "#ffccd5", "#a71e34"];
+        
+        const numSegments = prizes.length;
+        const segmentAngle = (2 * Math.PI) / numSegments;
+        let currentRotation = 0;
+        let isSpinning = false;
+        let wonPrize = "";
 
-        function showMethods() {
-            document.getElementById('step1').style.display = 'none';
-            document.getElementById('step2').style.display = 'block';
-            createConfetti();
-        }
-
-        function selectMethod(method) {
-            selectedMethod = method;
-            document.getElementById('step2').style.display = 'none';
-            document.getElementById('step3').style.display = 'block';
-            document.getElementById('selectedMethodDisplay').innerText = method;
-
-            // Link WhatsApp
-            const phone = "6285369954235"; // Format internasional
-            const text = `Hlo, Saya mau claim THR saya via ${method}`;
-            const waUrl = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
+        // Menggambar Roda Spinner ke Canvas
+        function drawWheel() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const radius = canvas.width / 2;
+            ctx.translate(radius, radius);
             
-            document.getElementById('waLink').href = waUrl;
+            for (let i = 0; i < numSegments; i++) {
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.arc(0, 0, radius, i * segmentAngle, (i + 1) * segmentAngle);
+                ctx.fillStyle = colors[i];
+                ctx.fill();
+                
+                // Pembatas segmen tipis putih biar rapi
+                ctx.lineWidth = 2;
+                ctx.strokeStyle = '#ffffff';
+                ctx.stroke();
+                
+                ctx.save();
+                ctx.rotate(i * segmentAngle + segmentAngle / 2);
+                ctx.fillStyle = (prizes[i] === "300k") ? "#d90429" : "#ffffff";
+                ctx.font = (prizes[i] === "300k") ? "bold 18px sans-serif" : "bold 15px sans-serif";
+                ctx.textAlign = "right";
+                ctx.fillText(prizes[i], radius - 20, 5);
+                ctx.restore();
+            }
+
+            // Lingkaran kecil pemanis di poros tengah roda
+            ctx.beginPath();
+            ctx.arc(0, 0, 12, 0, 2 * Math.PI);
+            ctx.fillStyle = "#ffffff";
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.translate(-radius, -radius);
         }
 
-        function createConfetti() {
-            const colors = ['#ff6b81', '#ff4757', '#2ed573', '#1e90ff', '#ffa502'];
-            for (let i = 0; i < 60; i++) {
-                const confetti = document.createElement('div');
-                confetti.classList.add('confetti');
-                confetti.style.left = Math.random() * 100 + 'vw';
-                confetti.style.animationDelay = Math.random() * 2 + 's';
-                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                document.body.appendChild(confetti);
-                setTimeout(() => { confetti.remove(); }, 3000);
+        drawWheel();
+
+        function putarRoda() {
+            if (isSpinning) return;
+            isSpinning = true;
+            
+            document.getElementById("spin-button").disabled = true;
+            document.getElementById("result-box").style.display = "none";
+            document.getElementById("wallet-box").style.display = "none";
+            document.getElementById("claim-button").style.display = "none";
+
+            // Tambah class animasi tik-tok pada jarum penunjuk
+            pointer.classList.add("tick");
+
+            const extraDegrees = Math.floor(Math.random() * 360);
+            const totalRotation = 2160 + extraDegrees; // Minimal putaran 6x biar dapet speed kenceng
+            currentRotation += totalRotation;
+            
+            canvas.style.transform = `rotate(${currentRotation}deg)`;
+
+            // Selesai berputar (Durasi diset ke 5 detik biar transisi membal makin dramatis)
+            setTimeout(() => {
+                isSpinning = false;
+                
+                // Matikan animasi jarum goyang pas roda berhenti
+                pointer.classList.remove("tick");
+
+                const actualAngle = (currentRotation % 360);
+                const pointerAngle = (360 - actualAngle + 270) % 360; 
+                const prizeIndex = Math.floor(pointerAngle / (360 / numSegments)) % numSegments;
+                
+                wonPrize = prizes[prizeIndex];
+                tampilkanHasil(wonPrize);
+            }, 5000);
+        }
+
+        function tampilkanHasil(hasil) {
+            const resultBox = document.getElementById("result-box");
+            const prizeText = document.getElementById("prize-text");
+            const funnyText = document.getElementById("funny-text");
+            const claimBtn = document.getElementById("claim-button");
+
+            resultBox.style.display = "block";
+
+            if (hasil === "300k") {
+                prizeText.className = "result-text jackpot";
+                prizeText.innerText = "🎉 SELAMAT!!! Kamu Dapet Jackpot Rp 300.000! 🎉";
+                funnyText.className = "";
+                funnyText.innerText = "Wah rezeki anak sholehah nih, dompet langsung senyum lebar!";
+                claimBtn.style.display = "inline-block";
+            } else if (hasil === "Zonk") {
+                prizeText.className = "result-text unlucky";
+                prizeText.innerText = "Yahhh... Kamu Kurang Beruntung! 😜";
+                funnyText.className = "unlucky";
+                funnyText.innerText = "Jangan sedih, ayo rayu aku dulu terus pencet tombol putar lagi.";
+                document.getElementById("spin-button").disabled = false; 
+            } else {
+                prizeText.className = "result-text normal";
+                prizeText.innerText = `Selamat! Kamu Dapat Rp ${hasil === '10k' ? '10.000' : hasil === '30k' ? '30.000' : hasil === '50k' ? '50.000' : '100.000'}`;
+                funnyText.className = "";
+                funnyText.innerText = "Lumayan banget nih, langsung gaskeun klaim sekarang! 🍹";
+                claimBtn.style.display = "inline-block";
             }
+
+            const noWA = "085369954235";
+            document.getElementById("link-dana").href = `https://wa.me/${noWA}?text=Sayang%2C%20aku%20mau%20klaim%20THR%20pake%20DANA%20sebesar%20Rp%20${hasil}!!%20💸✨`;
+            document.getElementById("link-gopay").href = `https://wa.me/${noWA}?text=Sayang%2C%20aku%20mau%20klaim%20THR%20pake%20GoPay%20sebesar%20Rp%20${hasil}!!%20💸✨`;
+            document.getElementById("link-shopeepay").href = `https://wa.me/${noWA}?text=Sayang%2C%20aku%20mau%20klaim%20THR%20pake%20ShopeePay%20sebesar%20Rp%20${hasil}!!%20💸✨`;
+        }
+
+        function bukaKlaim() {
+            document.getElementById("wallet-box").style.display = "block";
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
         }
     </script>
 </body>
